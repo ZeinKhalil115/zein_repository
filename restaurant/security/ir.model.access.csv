@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+Restaurant.access_drink,access_drink,Restaurant.model_drink,base.group_user,1,1,1,1
+Restaurant.access_food,access_food,Restaurant.model_food,base.group_user,1,1,1,1
+Restaurant.access_orders,access_orders,Restaurant.model_orders,base.group_user,1,1,1,1
+Restaurant.access_employees,access_employees,Restaurant.model_employees,base.group_user,1,1,1,1
