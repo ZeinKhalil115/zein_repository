@@ -1,0 +1,74 @@
+This XML file does not appear to have any style information associated with it. The document tree is shown below.
+<odoo>
+<!--  we define a window action to display the form and tree view with a unique id  -->
+<record id="action_menu_food" model="ir.actions.act_window">
+<field name="name">food</field>
+<field name="type">ir.actions.act_window</field>
+<field name="res_model">food</field>
+<field name="view_mode">tree,form</field>
+</record>
+<!--   we define the submenu which will be displayed and select that its parent is
+         the main menu that refer to the "food and beverage" menu   -->
+<menuitem id="food_menu" name="food" parent="main_menu" action="action_menu_food" sequence="10"/>
+<!--   define the form view and what we want to display when you try to creat a new record   -->
+<record id="view_food_form" model="ir.ui.view">
+<field name="name">menu.food.form</field>
+<field name="model">food</field>
+<field name="type">form</field>
+<field name="arch" type="xml">
+<form>
+<sheet>
+<group>
+<field name="food_id" placeholder="enter a unique id"/>
+<field name="name" placeholder="enter the name of this plate"/>
+<field name="ingredients" placeholder="what is the ingredients"/>
+<field name="amount_for" placeholder="for how many people is this meal?"/>
+<field name="price" placeholder="enter the price of this plate"/>
+<field name="extra" placeholder="write any extras beside the plate, if present"/>
+</group>
+<notebook>
+<page string="notes">
+<field name="note" placeholder="Enter any note for this plate"/>
+</page>
+</notebook>
+</sheet>
+<div class="oe_chatter">
+<field name="message_follower_ids" options="{'open_attachments': True}"/>
+<field name="message_ids"/>
+<field name="activity_ids"/>
+</div>
+</form>
+</field>
+</record>
+<!--   define the tree view and what we want to display when you enter the food section   -->
+<record id="view_food_tree" model="ir.ui.view">
+<field name="name">menu.food.tree</field>
+<field name="model">food</field>
+<field name="type">tree</field>
+<field name="arch" type="xml">
+<tree>
+<field name="name"/>
+<field name="ingredients"/>
+<field name="amount_for"/>
+<field name="price"/>
+<field name="extra"/>
+</tree>
+<notebook>
+<page>
+<field name="note"/>
+</page>
+</notebook>
+</field>
+</record>
+<record id="view_food_search" model="ir.ui.view">
+<field name="name">menu.food.search</field>
+<field name="model">food</field>
+<field name="type">search</field>
+<field name="arch" type="xml">
+<search>
+<field name="name"/>
+<field name="ingredients"/>
+</search>
+</field>
+</record>
+</odoo>
