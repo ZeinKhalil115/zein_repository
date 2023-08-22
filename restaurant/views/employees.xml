@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--  define the employee view  -->
+    <record id="action_menu_employees_kanban" model="ir.actions.act_window">
+        <field name="name">employees</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">employees</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click here to add a new employee.
+            </p>
+        </field>
+    </record>
+    <!--define the employee window and set the parent to restaurant
+     in order to make it as a menu in the restaurant model -->
+    <menuitem id="menu_employees_kanban" name="employees"
+              parent="restaurant" action="action_menu_employees_kanban"
+              sequence="20"/>
+    <!-- define the kanban view and the fields that we want to display in it-->
+    <record id="view_employees_kanban" model="ir.ui.view">
+        <field name="name">Employees Kanban</field>
+        <field name="model">employees</field>
+        <field name="type">kanban</field>
+        <field name="arch" type="xml">
+            <kanban edit="1">
+                <field name="name"/>
+                <field name="job_title"/>
+                <field name="phone_number" widget="phone"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_content">
+                            <div class="oe_kanban_card_header">
+                                <div class="oe_kanban_card_title">
+                                    <field name="name"/>
+                                </div>
+                                <div class="oe_kanban_card_subtitle">
+                                    <field name="job_title"/>
+                                </div>
+                                <div>
+                                    <field name="salary"/>
+                                </div>
+                                <div>
+                                    <field name="email" widget="email"/>
+                                </div>
+                            </div>
+                            <div class="oe_kanban_card_body">
+                                <div class="oe_kanban_card_text">
+                                    <field name="phone_number" widget="phone"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+    <!--  define the form view and what we want to display when you try to creat a new record  -->
+    <record id="view_employee_form" model="ir.ui.view">
+        <field name="name">employee.form</field>
+        <field name="model">employees</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form>
+                <button name="save_button" string="Save" type="object"
+                        confirm="are you sure you want to save the change ?" class="oe_highlight"
+                        help="by clicking this button, the employee information will be updated"/>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="rating" widget="priority" class="mr-3"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <field name="user_id" placeholder="user name in the database"/>
+                        <field name="employee_id"/>
+                        <field name="name"/>
+                        <field name="job_title"/>
+                        <field name="phone_number" widget="phone"/>
+                        <field name="email" widget="email"/>
+                        <field name="salary"/>
+                    </group>
+                    <notebook>
+                        <page string="notes">
+                            <field name="notes" placeholder="write any note for this employee"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" options="{'open_attachments': True}"/>
+                    <field name="message_ids"/>
+                    <field name="activity_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+</odoo>

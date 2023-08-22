@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+
+    <record id="action_menu_orders" model="ir.actions.act_window">
+        <field name="name">orders</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">orders</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+            id="orders"
+            name="orders"
+            parent="restaurant"
+            action="action_menu_orders"
+            sequence="1"
+    />
+    <record id="view_orders_form" model="ir.ui.view">
+        <field name="name">menu.orders.form</field>
+        <field name="model">orders</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form>
+                <button name="save_button" string="Confirm" type="object"
+                        confirm="are you sure you want to save the change ?" class="oe_highlight"
+                        help="by clicking this button, the order will go to the kitchen"
+                        attrs="{'invisible': [('state', '=', 'cancel')]}"
+                />
+                <button name="cancel_button" string="Cancel" type="object"
+                        attrs="{'invisible': ['|',('state', '=', 'draft'),('state', '=', 'cancel')]}"
+                        help="by clicking this button, the order will be cancelled"
+                        confirm="are you sure you want to cancel this order?&#10;you will get back just 60% of your money!"/>
+                <header>
+                    <field name="state" widget="statusbar" nolable="1" statusbar_visible="draft,in_order,done"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="order_id"/>
+                            <field name="order_date"/>
+                            <field name="cacher_id"/>
+                            <field name="cacher_name"
+                                   widget="radio"
+                                   attrs="{'readonly': [('state', '=', 'cancel')]}"/>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="customer_name" attrs="{'readonly': [('state', '=', 'cancel')]}"/>
+                                <field name="order_food_item" widget="many2many_tags"
+                                       attrs="{'readonly': [('state', '=', 'cancel')]}"/>
+                                <field name="order_drink_item" widget="many2many_tags"
+                                       attrs="{'readonly': [('state', '=', 'cancel')]}"/>
+                                <field name="total_price"/>
+                            </group>
+                            <group>
+                                <field name="table_number" attrs="{'readonly': [('state', '=', 'cancel')]}"/>
+                            </group>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="notes">
+                            <field name="special_instructions" placeholder="write any note for this order"
+                                   attrs="{'readonly': [('state', '=', 'cancel')]}"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" options="{'open_attachments': True}"/>
+                    <field name="message_ids"/>
+                    <field name="activity_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="view_orders_tree" model="ir.ui.view">
+        <field name="name">menu.orders.form</field>
+        <field name="model">orders</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree decoration-success="state == 'done'"
+                  decoration-warning="state == 'in_order'"
+                  decoration-danger="state == 'cancel'">
+                <field name="order_id"/>
+                <field name="cacher_id"/>
+                <field name="cacher_name_for_avatar" widget="many2one_avatar_user"/>
+                <field name="order_date"/>
+                <field name="customer_name"/>
+                <field name="table_number"/>
+                <field name="total_price"/>
+                <field name="special_instructions"/>
+                <field name="state"
+                       decoration-success="state == 'done'"
+                       decoration-warning="state == 'in_order'"
+                       decoration-danger="state == 'cancel'"
+                       widget="badge"/>
+            </tree>
+        </field>
+    </record>
+    <record id="view_orders_search" model="ir.ui.view">
+        <field name="name">menu.orders.search</field>
+        <field name="model">orders</field>
+        <field name="type">search</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="order_id"/>
+                <field name="customer_name"/>
+                <field name="order_food_item"/>
+                <field name="order_drink_item"/>
+                <field name="table_number"/>
+                <group>
+                    <filter string="order state" name="group_by_order_stat" context="{'group_by':'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+</odoo>

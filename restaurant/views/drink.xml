@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!--  we define the submenu which will be displayed and select that its parent is
+         the main menu that refer to the "food and beverage" menu  -->
+    <menuitem
+            id="drink_menu"
+            name="drink"
+            parent="main_menu"
+            action="action_menu_drink"
+            sequence="1"
+    />
+    <!-- we define a window action to display the form and tree view with a unique id -->
+    <record id="action_menu_drink" model="ir.actions.act_window">
+        <field name="name">drink</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">drink</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <!--  define the form view and what we want to display when you try to creat a new record  -->
+    <record id="view_drink_form" model="ir.ui.view">
+        <field name="name">menu.drink.form</field>
+        <field name="model">drink</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="drink_id" placeholder="enter a unique id for the drink"/>
+                        <field name="name" placeholder="enter the name of the drink"/>
+                        <field name="ingredients" placeholder="what is the ingredients of this drink"/>
+                        <field name="temp"/>
+                        <field name="price" placeholder="price of this drink"/>
+                        <field name="extra" placeholder="write any extras beside the drink, if present"/>
+                    </group>
+                    <notebook>
+                        <page string="notes">
+                            <field name="note" placeholder="enter any note for this drink"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" options="{'open_attachments': True}"/>
+                    <field name="message_ids"/>
+                    <field name="activity_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <!--  define the tree view and what we want to display when you enter the drink section  -->
+    <record id="view_drink_tree" model="ir.ui.view">
+        <field name="name">menu.drink.tree</field>
+        <field name="model">drink</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="ingredients"/>
+                <field name="temp"/>
+                <field name="price"/>
+                <field name="extra"/>
+                <field name="note"/>
+            </tree>
+        </field>
+    </record>
+    <!--  define the field that we want to search in it  -->
+    <record id="view_drink_search" model="ir.ui.view">
+        <field name="name">menu.drink.search</field>
+        <field name="model">drink</field>
+        <field name="type">search</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="ingredients"/>
+                <field name="temp"/>
+                <field name="price"/>
+                <field name="extra"/>
+                <field name="note"/>
+                <!--      define the filters that will filter the records according to them           -->
+                <filter name="filter_hot_drink_amount" string="hot drink" domain="[('temp','=','hot')]"/>
+                <separator/>
+                <filter name="filter_cold_drink_amount" string="cold drink" domain="[('temp','=','cold')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="drink temp" name="drink_temp" context="{'group_by': 'temp'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+</odoo>

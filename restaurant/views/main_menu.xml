@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!--define the main menu in the model that will be displayed
+        when we click on the four dots in the top left corner-->
+    <menuitem
+            id="restaurant"
+            name="restaurant"
+            sequence="10"
+    />
+    <!--  define a menu in the restaurant model with the name food and beverage  -->
+    <menuitem
+            id="main_menu"
+            name="food and beverage"
+            parent="restaurant"
+            sequence="10"
+    />
+
+</odoo>
