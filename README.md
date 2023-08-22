@@ -1,2 +1,4 @@
 # zein_repository
-this repository is my first one, please take whatever you want from it and leave a comment if you have any recommendation
+Here you can find a lot of my project
+Restaurant : it is an odoo application, it cover the food and drink menu, the orders and the employees of the restaurant.
+You can find a readme file in each main folder to explain a little about the project.
